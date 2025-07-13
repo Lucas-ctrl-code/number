@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>加减法小练习</title>
+  <title>加减乘除小练习</title>
 </head>
 <body>
   <h2 id="question">题目加载中...</h2>
@@ -13,25 +13,40 @@
   <script>
     let num1, num2, operator, correctAnswer;
 
-    // 出题函数
     function generateQuestion() {
-      num1 = Math.floor(Math.random() * 90) + 10; // 10~99
-      num2 = Math.floor(Math.random() * 90) + 10; // 10~99
-      operator = Math.random() < 0.5 ? '+' : '-';
+      const operators = ['+', '-', '*', '/'];
+      operator = operators[Math.floor(Math.random() * operators.length)];
 
-      if (operator === '-' && num1 < num2) {
-        // 确保结果不为负数
-        [num1, num2] = [num2, num1];
+      if (operator === '/') {
+        // 让除法结果是整数：先决定除数和结果，再反推被除数
+        num2 = Math.floor(Math.random() * 9) + 1; // 除数 1~9
+        correctAnswer = Math.floor(Math.random() * 10) + 1; // 结果 1~10
+        num1 = num2 * correctAnswer; // 被除数
+      } else {
+        num1 = Math.floor(Math.random() * 90) + 10; // 两位数
+        num2 = Math.floor(Math.random() * 90) + 10;
+
+        // 如果是减法，确保不出负数
+        if (operator === '-' && num1 < num2) {
+          [num1, num2] = [num2, num1];
+        }
+
+        // 计算正确答案
+        if (operator === '+') {
+          correctAnswer = num1 + num2;
+        } else if (operator === '-') {
+          correctAnswer = num1 - num2;
+        } else if (operator === '*') {
+          correctAnswer = num1 * num2;
+        }
       }
 
-      correctAnswer = operator === '+' ? num1 + num2 : num1 - num2;
-
+      // 显示题目
       document.getElementById("question").textContent = `${num1} ${operator} ${num2} = ?`;
       document.getElementById("answer").value = '';
       document.getElementById("result").textContent = '';
     }
 
-    // 检查答案
     function checkAnswer() {
       let userAnswer = Number(document.getElementById("answer").value);
       if (userAnswer === correctAnswer) {
@@ -39,11 +54,10 @@
       } else {
         document.getElementById("result").textContent = `❌ 答错了，正确答案是 ${correctAnswer}。下一题：`;
       }
-      setTimeout(generateQuestion, 1000); // 1秒后出下一题
+      setTimeout(generateQuestion, 1000);
     }
 
-    // 初始加载
-    generateQuestion();
+    generateQuestion(); // 页面加载时出第一题
   </script>
 </body>
 </html>
