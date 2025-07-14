@@ -18,20 +18,16 @@
       operator = operators[Math.floor(Math.random() * operators.length)];
 
       if (operator === '/') {
-        // 让除法结果是整数：先决定除数和结果，再反推被除数
-        num2 = Math.floor(Math.random() * 9) + 1; // 除数 1~9
-        correctAnswer = Math.floor(Math.random() * 10) + 1; // 结果 1~10
-        num1 = num2 * correctAnswer; // 被除数
+        num2 = Math.floor(Math.random() * 9) + 1; 
+        correctAnswer = Math.floor(Math.random() * 10) + 1; 
+        num1 = num2 * correctAnswer; 
       } else {
-        num1 = Math.floor(Math.random() * 90) + 10; // 两位数
+        num1 = Math.floor(Math.random() * 90) + 10; 
         num2 = Math.floor(Math.random() * 90) + 10;
 
-        // 如果是减法，确保不出负数
         if (operator === '-' && num1 < num2) {
           [num1, num2] = [num2, num1];
         }
-
-        // 计算正确答案
         if (operator === '+') {
           correctAnswer = num1 + num2;
         } else if (operator === '-') {
@@ -40,13 +36,10 @@
           correctAnswer = num1 * num2;
         }
       }
-
-      // 显示题目
       document.getElementById("question").textContent = `${num1} ${operator} ${num2} = ?`;
       document.getElementById("answer").value = '';
       document.getElementById("result").textContent = '';
     }
-
     function checkAnswer() {
       let userAnswer = Number(document.getElementById("answer").value);
       if (userAnswer === correctAnswer) {
@@ -56,8 +49,7 @@
       }
       setTimeout(generateQuestion, 1000);
     }
-
-    generateQuestion(); // 页面加载时出第一题
+    generateQuestion(); 
   </script>
 </body>
 </html>
